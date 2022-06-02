@@ -1,9 +1,9 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import '@styles/tailwind.css';
 import { ProviderAuth } from '@hooks/use-auth';
 
 function MyApp({ Component, pageProps }) {
-  return(
+  return (
     <ProviderAuth>
       <Head>
         <title>Create Next App</title>
@@ -17,4 +17,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp
+export default MyApp;

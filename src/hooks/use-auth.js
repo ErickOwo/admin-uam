@@ -25,14 +25,13 @@ const useProviderAuth = () => {
       'content-Type': 'aplication/json',
     },
   };
-  
-  const signIn = async body => {
-    try{
+
+  const signIn = async (body) => {
+    try {
       const response = await axios.post(endPoints.auth.login, body, options);
-      console.log(response)
-    }
-    catch(e){
-      console.log(e)
+      console.log(response);
+    } catch (e) {
+      console.log(e);
     }
     // if (access_token) cookie.set('token', access_token, { expires: 5 });
 
