@@ -17,11 +17,11 @@ export const useAuth = () => {
 
 const useProviderAuth = () => {
   const [user, setUser] = useState(null);
-  const [error, setError ] = useState(null)
-  const [ token, setToken ] = useState(null)
+  const [error, setError] = useState(null);
+  const [token, setToken] = useState(null);
   const router = useRouter();
 
-  if(cookie.get('token-uam')) axios.defaults.headers.Authorization = `${cookie.get('token-uam')}`;
+  if (cookie.get('token-uam')) axios.defaults.headers.Authorization = `${cookie.get('token-uam')}`;
 
   const options = {
     Headers: {
@@ -30,16 +30,16 @@ const useProviderAuth = () => {
     },
   };
 
-  const signIn = async body => {
+  const signIn = async (body) => {
     try {
       const response = await axios.post(endPoints.auth.login, body, options);
-      const { access_token } = response.data
-      
+      const { access_token } = response.data;
+
       if (access_token) cookie.set('token-uam', access_token, { expires: 30 });
 
       axios.defaults.headers.Authorization = `${cookie.get('token-uam')}`;
-      
-      return('ok')
+
+      return 'ok';
     } catch (e) {
       setError(e.response.data.error);
     }

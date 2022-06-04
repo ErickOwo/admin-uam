@@ -8,7 +8,7 @@ export default function Home() {
   const auth = useAuth();
   const router = useRouter();
 
-  if(jsCookie.get('token-uam')) router.push('/dashboard');
+  if (jsCookie.get('token-uam')) router.push('/dashboard');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,11 +17,14 @@ export default function Home() {
       email: formData.get('email'),
       password: formData.get('password'),
     };
-    auth.signIn(data).then(res =>{
-      if(res) router.push('/dashboard');
-    }).catch(e =>{
-      console.log(e)
-    });
+    auth
+      .signIn(data)
+      .then((res) => {
+        if (res) router.push('/dashboard');
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -35,10 +38,7 @@ export default function Home() {
           <h3 className="font-bold text-xl">Ingresa a tu cuenta</h3>
           <input className="border border-white bg-black/80 p-1" placeholder="Correo Electrónico" type="email" id="email" name="email" />
           <input className="border border-white bg-black/80 p-1" placeholder="Contraseña" type="password" id="password" name="password" />
-          {
-            auth.error ? <span className='h-4 text-red-600'>{auth.error}</span> 
-            : <span className='h-4'></span>
-          }
+          {auth.error ? <span className="h-4 text-red-600">{auth.error}</span> : <span className="h-4"></span>}
           <button type="submit" className="self-center py-1 px-3 border border-white bg-black/50 hover:text-white/80 hover:border-white/80">
             Ingresar
           </button>

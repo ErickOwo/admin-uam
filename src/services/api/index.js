@@ -9,8 +9,8 @@ const endPoints = {
   },
   galleryData: {
     add: `${API}/galleryprincipal/add`,
-    get: `${API}/galleryprincipal/get`
-  }
+    get: `${API}/galleryprincipal/get`,
+  },
 };
 
 export default endPoints;
