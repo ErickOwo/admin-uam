@@ -4,6 +4,13 @@ const endPoints = {
   auth: {
     login: `${API}/login`,
   },
+  messagesData: {
+    get: `${API}/messages`,
+  },
+  galleryData: {
+    add: `${API}/galleryprincipal/add`,
+    get: `${API}/galleryprincipal/get`
+  }
 };
 
 export default endPoints;
