@@ -14,12 +14,12 @@ const Messages = () => {
   }, [messages]);
 
   return (
-    <div className="max-w-none w-full min-h-screen bg-slate-600 text-white p-6">
+    <div className="max-w-none w-full min-h-screen text-white p-6">
       <h3 className="font-bold text-2xl">Mensajes</h3>
       <div className="my-5 flex flex-wrap gap-4">
         {data?.map((message, index) => {
           return (
-            <div className="flex flex-col border border-white w-[350px] p-4" key={index}>
+            <div className="flex flex-col bg-black/90 border border-white w-[350px] p-4" key={index}>
               <p>
                 <span className="font-bold">Nombre: </span>
                 {message.name}

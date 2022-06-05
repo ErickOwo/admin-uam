@@ -39,9 +39,9 @@ const Modgallery = () => {
   };
 
   return (
-    <div className="mas-w-none w-full min-h-screen bg-gray-600 flex justify-center p-4 items-start">
+    <div className="mas-w-none w-full min-h-screen flex justify-center p-4 items-start">
       <div className="flex gap-3">
-        <form className="flex flex-col bg-black/40 w-[500px] p-8 items-start gap-2 text-white" ref={formRef} onSubmit={handleSubmit}>
+        <form className="flex flex-col bg-black/80 w-[500px] p-8 items-start gap-2 text-white" ref={formRef} onSubmit={handleSubmit}>
           <label className="font-bold">Nombre de la imágen: </label>
           <input className="bg-black/40 max-w-[400px] w-full p-1" name="title" id="title" />
           <label className="font-bold">Descripción de la imágen: </label>
@@ -55,7 +55,7 @@ const Modgallery = () => {
             Enviar
           </button>
         </form>
-        <div className="w-[300px] h-[380px] flex flex-col bg-black/50 p-3 gap-2">
+        <div className="w-[300px] h-[380px] flex flex-col bg-black/80 p-3 gap-2">
           <h3 className="text-white font-bold">Vista Previa</h3>
           {imgUrl ? (
             <>

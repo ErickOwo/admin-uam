@@ -10,6 +10,7 @@ const endPoints = {
   galleryData: {
     add: `${API}/galleryprincipal/add`,
     get: `${API}/galleryprincipal/get`,
+    delete: (id) => `${API}/galleryprincipal/${id}`,
   },
 };
 

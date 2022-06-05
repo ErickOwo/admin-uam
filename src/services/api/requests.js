@@ -1,4 +1,5 @@
 import axios from 'axios';
+import endPoints from './';
 
 const getData = async (url) => {
   const response = await axios(url);
@@ -19,4 +20,9 @@ const postDataImg = async (url, body) => {
   return response.data;
 };
 
-export { getData, postDataImg, getDataGallery };
+const deleteImg = async (id) => {
+  const response = await axios.delete(endPoints.galleryData.delete(id));
+  return response.data;
+};
+
+export { getData, postDataImg, getDataGallery, deleteImg };
