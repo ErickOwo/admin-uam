@@ -11,6 +11,10 @@ const Dashboard = () => {
       link: '/dashboard/modgallery',
       name: 'Galleria de Inicio',
     },
+    {
+      link: '/dashboard/modequipotecnico',
+      name: 'Equipo Técnico',
+    },
   ];
 
   return (

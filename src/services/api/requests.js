@@ -6,11 +6,6 @@ const getData = async (url) => {
   return response.data;
 };
 
-const getDataGallery = async (url) => {
-  const response = await axios(url);
-  return response.data;
-};
-
 const postDataImg = async (url, body) => {
   const response = await axios.post(url, body, {
     headers: {
@@ -25,4 +20,9 @@ const deleteImg = async (id) => {
   return response.data;
 };
 
-export { getData, postDataImg, getDataGallery, deleteImg };
+const deleteRecurso = async (id) => {
+  const response = await axios.delete(endPoints.equipoData.delete(id));
+  return response.data;
+};
+
+export { getData, postDataImg, deleteImg, deleteRecurso };

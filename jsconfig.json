@@ -5,6 +5,8 @@
       "@styles/*": ["styles/*"],
       "@services/*": ["services/*"],
       "@hooks/*": ["hooks/*"],
+      "@components/*": ["components/*"],
+      "@containers/*": ["containers/*"],
     }
   }
 }

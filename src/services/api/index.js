@@ -8,9 +8,14 @@ const endPoints = {
     get: `${API}/messages`,
   },
   galleryData: {
-    add: `${API}/galleryprincipal/add`,
-    get: `${API}/galleryprincipal/get`,
+    add: `${API}/galleryprincipal`,
+    get: `${API}/galleryprincipal`,
     delete: (id) => `${API}/galleryprincipal/${id}`,
+  },
+  equipoData: {
+    add: `${API}/equipotecnico`,
+    get: `${API}/equipotecnico`,
+    delete: (id) => `${API}/equipotecnico/${id}`,
   },
 };
 

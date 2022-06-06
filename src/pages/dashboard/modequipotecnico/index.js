@@ -1,24 +1,23 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import useSWR from 'swr';
-import { getData, deleteImg } from '@services/api/requests';
+import { getData, deleteRecurso } from '@services/api/requests';
 import endPoints from '@services/api';
 import { useRouter } from 'next/router';
 
-const modGallery = () => {
-  const { data } = useSWR(endPoints.galleryData.get, getData);
+const ModEquipoTecnico = () => {
+  const { data } = useSWR(endPoints.equipoData.get, getData);
   const router = useRouter();
 
   const handleDelete = (id) => {
-    if (confirm('¿Está seguro de que desea eliminar la imagen?')) deleteImg(id).then(router.reload());
+    if (confirm('¿Está seguro de que desea eliminar la imagen?')) deleteRecurso(id).then(router.reload());
   };
-
   return (
     <div className="min-w-none w-full min-h-screen flex flex-col items-center text-white p-5">
-      <h3 className="text-2xl">Modificar Galleria de inicio UAM</h3>
+      <h3 className="text-2xl">Modificar Equipo Técnico</h3>
       <div className="flex flex-col w-5/6 p-6">
         <div className="bg-slate-800/80 flex p-4 ">
-          <Link href="/dashboard/modgallery/add">
+          <Link href="/dashboard/modequipotecnico/add">
             <button className="bg-pink-700 py-2 px-6 ml-auto rounded-lg">Agregar</button>
           </Link>
         </div>
@@ -27,12 +26,12 @@ const modGallery = () => {
             <div className="flex p-6 bg-black/70 w-full rounded-lg" key={index}>
               <div className="flex flex-col grow shrink">
                 <p>
-                  <span className="font-bold">Título: </span>
-                  {item.title}
+                  <span className="font-bold">Nombre: </span>
+                  {item.name}
                 </p>
                 <p>
-                  <span className="font-bold">Descripción: </span>
-                  {item.description}
+                  <span className="font-bold">Cargo: </span>
+                  {item.position}
                 </p>
                 <button className="mt-auto bg-sky-500 p-2 w-9/12 self-center text-white font-bold">Modificar</button>
                 <button className="mt-3 bg-red-600 p-2 w-9/12 self-center text-white font-bold" onClick={() => handleDelete(item._id)}>
@@ -51,4 +50,4 @@ const modGallery = () => {
   );
 };
 
-export default modGallery;
+export default ModEquipoTecnico;
