@@ -10,7 +10,7 @@ const ModEquipoTecnico = () => {
   const router = useRouter();
 
   const handleDelete = (id) => {
-    if (confirm('¿Está seguro de que desea eliminar la imagen?')) deleteRecurso(id).then(router.reload());
+    if (confirm('¿Está seguro de que desea eliminar la imagen?')) deleteRecurso(id).then((res) => router.reload());
   };
   return (
     <div className="min-w-none w-full min-h-screen flex flex-col items-center text-white p-5">
