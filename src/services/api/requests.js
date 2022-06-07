@@ -25,4 +25,9 @@ const deleteRecurso = async (id) => {
   return response.data;
 };
 
-export { getData, postDataImg, deleteImg, deleteRecurso };
+const deleteMultimedia = async (id) => {
+  const response = await axios.delete(endPoints.multimediaData.delete(id));
+  return response.data;
+};
+
+export { getData, postDataImg, deleteImg, deleteRecurso, deleteMultimedia };

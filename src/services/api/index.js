@@ -17,6 +17,11 @@ const endPoints = {
     get: `${API}/equipotecnico`,
     delete: (id) => `${API}/equipotecnico/${id}`,
   },
+  multimediaData: {
+    add: `${API}/multimedia`,
+    get: `${API}/multimedia`,
+    delete: (id) => `${API}/multimedia/${id}`,
+  },
 };
 
 export default endPoints;
