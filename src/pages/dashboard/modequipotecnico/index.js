@@ -1,9 +1,8 @@
 import Data from '@components/Data';
-import { deleteRecurso } from '@services/api/requests';
 import endPoints from '@services/api';
 
 const ModEquipoTecnico = () => {
-  return <Data place="Modificar Equipo Técnico" functionDelete={deleteRecurso} urlGetData={endPoints.equipoData.get} addURL="/dashboard/modequipotecnico/add" />;
+  return <Data place="Modificar Equipo Técnico" apiURL={endPoints.equipoData.api} addURL="/dashboard/modequipotecnico/add" editURL="/dashboard/modequipotecnico/edit" />;
 };
 
 export default ModEquipoTecnico;

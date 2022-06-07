@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import useSWR from 'swr';
-import { getData } from '@services/api/requests';
+import { getData, deleteData } from '@services/api/requests';
 import { useRouter } from 'next/router';
 
-const Data = ({ place, urlGetData, functionDelete, addURL }) => {
-  const { data } = useSWR(urlGetData, getData);
+const Data = ({ place, apiURL, addURL, editURL }) => {
+  const { data } = useSWR(apiURL, getData);
   const router = useRouter();
 
   const handleDelete = (id) => {
-    if (confirm('¿Está seguro de que desea eliminar la imagen?')) functionDelete(id).then(res=> router.reload());
+    if (confirm('¿Está seguro de que desea eliminar la imagen?')) deleteData(apiURL, id).then(res=> router.reload());
   };
 
   return (
@@ -26,14 +26,18 @@ const Data = ({ place, urlGetData, functionDelete, addURL }) => {
             <div className="flex p-6 bg-black/70 w-full rounded-lg" key={index}>
               <div className="flex flex-col grow shrink">
                 <p>
-                  <span className="font-bold">Título: </span>
-                  {item.title}
+                  <span className="font-bold">{item.title ? 'Título: ' : 'Nombre: '}</span>
+                  {item.title || item.name}
                 </p>
                 <p>
-                  <span className="font-bold">Descripción: </span>
-                  {item.description}
+                  <span className="font-bold">{item.title ? 'Descripción: ' : 'Cargo: '}</span>
+                  {item.description || item.position}
                 </p>
-                <button className="mt-auto bg-sky-500 p-2 w-9/12 self-center text-white font-bold">Modificar</button>
+                <Link href={`${editURL}/${item._id}`}>
+                  <button className="mt-auto bg-sky-500 p-2 w-9/12 self-center text-white font-bold">
+                    Modificar
+                  </button>
+                </Link>
                 <button className="mt-3 bg-red-600 p-2 w-9/12 self-center text-white font-bold" onClick={() => handleDelete(item._id)}>
                   Eliminar
                 </button>

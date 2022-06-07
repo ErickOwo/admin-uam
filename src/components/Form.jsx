@@ -1,19 +1,45 @@
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { postDataImg } from '@services/api/requests';
+import { postData, putData, getData } from '@services/api/requests';
+import useSWR from 'swr';
 
-const Form = ({ nameLabel, descriptionLabel, urlAddMultimedia, redirect, type='imagen', mode='Agregar' }) => {
+const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='imagen', mode='Agregar' }) => {
   const router = useRouter();
   const formRef = useRef(null);
-  const [multimediaUrl, setMultimediaUrl] = useState(null);
-  const [message, setMessage] = useState({ text: null, type: null });
+  const [ multimediaUrl, setMultimediaUrl ] = useState(null);
+  const [ message, setMessage ] = useState({ text: null, type: null });
+
+  const [ defaultData, setDefaultData ] = useState({title: null, description: null, mediaURL: null, public_id: null});
+
+  const { id } = router.query;
+ 
+  const { data } = useSWR(id ?`${urlAPIMultimedia}/${router.query.id}` : null, getData);
+
+  useEffect(()=>{
+    if(mode == 'Modificar'){
+      setDefaultData({
+        title: data?.name || data?.title, 
+        description: data?.position || data?.description, 
+        mediaURL: data?.imgURL || data?.videoURL, 
+        public_id: data?.public_id,
+        _id: data?._id
+      });
+      setMultimediaUrl(data?.imgURL || data?.videoURL);
+    }
+  },[data]);
   
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
 
-    postDataImg(urlAddMultimedia, formData)
+    if(formData.get('media').size > 100000000){
+      setMessage({text: 'archivo demasiado grande para ser enviado', type: 'error'});
+      alert('No se pueden agregar archivos que pesen más de 100mb')
+      return;
+    }
+
+    if(mode == 'Agregar') postData(urlAPIMultimedia, formData)
       .then((res) => {
         setMessage({text: res.message, type: res.type});
         router.push(redirect);
@@ -22,6 +48,15 @@ const Form = ({ nameLabel, descriptionLabel, urlAddMultimedia, redirect, type='i
         console.log('hay un error');
         console.log(e);
       });
+    else putData(urlAPIMultimedia, formData)
+    .then((res) => {
+      setMessage({text: res.message, type: res.type});
+      router.push(redirect);
+    })
+    .catch((e) => {
+      console.log('hay un error');
+      console.log(e);
+    });
   };
 
   const prevMultimedia = (e) => {
@@ -59,12 +94,14 @@ const Form = ({ nameLabel, descriptionLabel, urlAddMultimedia, redirect, type='i
             className="bg-black/40 max-w-[400px] w-full p-1" 
             name="title" 
             id="title" 
+            defaultValue= { data ? defaultData.title : null}
             required />
           <label className="font-bold">{ descriptionLabel }</label>
           <input 
             className="bg-black/40 max-w-[400px] w-full p-1" 
             name="description" 
             id="description" 
+            defaultValue={ data ? defaultData.description : null}
             required />
           <label 
             className="py-3 my-3 w-2/5 text-center bg-yellow-200 text-black rounded-lg font-bold" 
@@ -78,7 +115,16 @@ const Form = ({ nameLabel, descriptionLabel, urlAddMultimedia, redirect, type='i
             accept={ type == 'imagen' ? 'image/*' : 'video/*' } 
             hidden 
             onChange={prevMultimedia} 
-            required />
+            required={mode == 'Agregar' ? true : false } />
+
+          {
+            mode == "Modificar" ? <input
+              name="id" 
+              id="id" 
+              hidden
+              defaultValue={ data ? defaultData._id : null} />
+              : null
+          }
           {message?.text  
                           ? <span 
                               className="h-6 w-full mb-2"
@@ -97,16 +143,22 @@ const Form = ({ nameLabel, descriptionLabel, urlAddMultimedia, redirect, type='i
             className="font-bold py-1 px-5 text-black" 
             style={ mode == 'Agregar' 
                     ? { backgroundColor: '#2d5' } 
-                    : { backgroundColor: '#00f' }
+                    : { backgroundColor: '#4aF' }
                   } 
             type="submit"
             onClick={() =>{ 
               const formData = new FormData(formRef.current);
               
-              if( formData.get('media').size == 0 
-                  || formData.get('title') == ""
-                  || formData.get('description') == "" ) setMessage({text: 'Llene los campos correspondientes', type: 'error'})
-              else setMessage({text: 'Enviando Archivo', type: 'reading'})
+              if( formData.get('title') == ""
+                  || formData.get('description') == "" ) setMessage({
+                    text: 'Llene los campos correspondientes',
+                     type: 'error'
+                  });
+              else if( formData.get('media').size == 0 && type == "Agregar" ) setMessage({
+                    text: 'Agregue un archivo de imagen o video',
+                     type: 'error'
+                  });
+              else setMessage({text: 'Enviando Archivo', type: 'reading'});
             }} >
             { mode }
           </button>
