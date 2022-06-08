@@ -1,4 +1,4 @@
-import React, { useContext, useState, createContext, useEffect } from 'react';
+import React, { useContext, useState, createContext } from 'react';
 import axios from 'axios';
 import cookie from 'js-cookie';
 import endPoints from '@services/api';
@@ -18,10 +18,11 @@ export const useAuth = () => {
 const useProviderAuth = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-  const [token, setToken] = useState(null);
   const router = useRouter();
 
-  if (cookie.get('token-uam')) axios.defaults.headers.Authorization = `${cookie.get('token-uam')}`;
+  if (cookie.get('token-uam')) {
+    axios.defaults.headers.Authorization = `${cookie.get('token-uam')}`;
+  }
 
   const options = {
     Headers: {
@@ -51,13 +52,12 @@ const useProviderAuth = () => {
     router.push('/');
   };
   const auth = async () => {
-    // try {
-    //   axios.defaults.headers.Authorization = `Bearer ${cookie.get('token')}`;
-    //   const { data: userProfile } = await axios(endPoints.auth.profile);
-    //   setUser(userProfile);
-    // } catch (e) {
-    //   router.push('/');
-    // }
+    try {
+      const { data: userProfile } = await axios(endPoints.auth.profile);
+      setUser(userProfile);
+    } catch (e) {
+      router.push('/');
+    }
   };
   return {
     user,

@@ -14,7 +14,7 @@ const Data = ({ place, apiURL, addURL, editURL }) => {
 
   return (
     <div className="min-w-none w-full min-h-screen flex flex-col items-center text-white p-5">
-      <h3 className="text-2xl">{ place }</h3>
+      <h3 className="text-2xl text-yellow-400 font-bold self-center bg-black/70 py-2 px-5 rounded-lg">{ place }</h3>
       <div className="flex flex-col w-5/6 p-6">
         <div className="bg-slate-800/80 flex p-4 ">
           <Link href={addURL}>

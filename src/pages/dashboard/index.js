@@ -23,7 +23,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="container max-w-none w-full min-h-screen py-8 px-12">
+      <div className="container max-w-none w-full py-8 px-12">
         <div className="flex flex-wrap gap-6">
           {pages.map((page, index) => {
             return (

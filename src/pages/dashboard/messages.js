@@ -2,20 +2,18 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import endPoints from '@services/api';
 import { getData } from '@services/api/requests';
-import { useRouter } from 'next/router';
 
 const Messages = () => {
   const [data, setData] = useState([]);
-  const router = useRouter();
-  const { data: messages, error } = useSWR(endPoints.messagesData.get, getData);
+  const { data: messages } = useSWR(endPoints.messagesData.get, getData);
 
   useEffect(() => {
     setData(messages?.messages);
   }, [messages]);
 
   return (
-    <div className="max-w-none w-full min-h-screen text-white p-6">
-      <h3 className="font-bold text-2xl">Mensajes</h3>
+    <div className="max-w-none w-full text-white p-6">
+      <h3 className="font-bold text-2xl text-yellow-400">Mensajes</h3>
       <div className="my-5 flex flex-wrap gap-4">
         {data?.map((message, index) => {
           return (
