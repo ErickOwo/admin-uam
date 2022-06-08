@@ -28,7 +28,7 @@ export default function Home() {
   };
 
   return (
-    <div className='bg-[url("../assets/images/background-login.png")] bg-[length:100%_100%] w-full min-h-screen max-w-none flex'>
+    <div className='bg-[url("../assets/images/background-login.png")] bg-[length:100%_100%] w-full min-h-screen max-w-none flex -mt-20'>
       <div className="bg-black/40 w-full flex">
         <form
           className="w-[400px] flex flex-col border border-white px-5 py-12 bg-black/80 gap-6 my-auto ml-16 text-white shadow-[0_35px_30px_-15px_rgba(240,240,240,0.3)]"
