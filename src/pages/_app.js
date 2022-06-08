@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="description" content="Administración de página UAM" />
         <link rel="icon" href="/logo.jpg" />
       </Head>
-      <div className='bg-[url("../assets/images/wallpaper.jpg")] bg-[length:100%_100%] bg-fixed w-full max-w-none'>
+      <div className='bg-[url("../assets/images/wallpaper.jpg")] md:bg-[length:100%_100%] bg-[length:220%_100%] bg-right md:bg-center bg-fixed w-full max-w-none'>
         <Header />
         <main className="w-full min-h-screen pt-20">
           <Component {...pageProps} />

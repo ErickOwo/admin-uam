@@ -28,10 +28,10 @@ export default function Home() {
   };
 
   return (
-    <div className='bg-[url("../assets/images/background-login.png")] bg-[length:100%_100%] w-full min-h-screen max-w-none flex -mt-20'>
-      <div className="bg-black/40 w-full flex">
+    <div className='bg-[url("../assets/images/background-login.png")] md:bg-[length:100%_100%] bg-[length:240%_100%] bg-center w-full min-h-screen max-w-none flex -mt-20'>
+      <div className="bg-black/40 w-full flex p-5">
         <form
-          className="w-[400px] flex flex-col border border-white px-5 py-12 bg-black/80 gap-6 my-auto ml-16 text-white shadow-[0_35px_30px_-15px_rgba(240,240,240,0.3)]"
+          className="max-w-[400px] w-full flex flex-col border border-white md:px-5 md:py-12 px-4 py-6 bg-black/80 gap-6 my-auto md:ml-12 text-white shadow-[0_35px_30px_-15px_rgba(240,240,240,0.3)]"
           ref={formRef}
           onSubmit={handleSubmit}
         >

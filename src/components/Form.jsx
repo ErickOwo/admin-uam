@@ -152,9 +152,9 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
   };
 
   return (
-    <div className="mas-w-none w-full flex justify-center p-4 items-start">
+    <div className="w-full flex justify-center md:p-4 py-4 px-2 items-start">
       <div 
-        className="flex gap-3 relative"
+        className="flex gap-3 relative md:flex-row flex-col min-w-full md:min-w-fit"
         onDragEnter={ handleDragEnter } >
         {
           dragModal ? <div 
@@ -176,7 +176,7 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
               </span>
            </div> :null
         }
-        <form className="flex flex-col bg-black/80 w-[500px] p-8 items-start gap-2 text-white" ref={formRef} onSubmit={handleSubmit}>
+        <form className="flex flex-col bg-black/80 lg:w-[500px] p-8 items-start gap-2 text-white" ref={formRef} onSubmit={handleSubmit}>
           <label className="font-bold">{ nameLabel }</label>
           <input 
             className="bg-black/40 max-w-[400px] w-full p-1" 
@@ -192,7 +192,7 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
             defaultValue={ data ? defaultData.description : null}
             required />
           <label 
-            className="py-3 my-3 w-2/5 text-center bg-yellow-200 text-black rounded-lg font-bold" 
+            className="py-3 my-3 md:w-2/5 w-max text-center bg-yellow-200 text-black rounded-lg font-bold" 
             htmlFor="media">
             Subir {type}
           </label>
@@ -214,7 +214,7 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
           }
           {message?.text  
                           ? <span 
-                              className="h-6 w-full mb-2"
+                              className="md:h-6 h-12 w-full mb-2"
                               style={
                                 message.type == 'success' 
                                   ? { color: '#0f0' } 
@@ -225,7 +225,7 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
                                       : {color: '#f00'}  } >
                                 { message.text }
                             </span> 
-                      : <span className="h-6 w-full mb-2"></span>}
+                      : <span className="md:h-6 h-12 w-full mb-2"></span>}
           <button 
             className="font-bold py-1 px-5 text-black" 
             style={ mode == 'Agregar' 
@@ -251,24 +251,23 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
           </button>
         </form>
         <div 
-          className="w-[300px] min-h-[380px] flex flex-col bg-black/80 p-3 gap-2"
-          style={type == 'imagen' ? {width: '300px'} : {width: '470px'}} >
+          className="w- max-w-[400px] min-h-[380px] flex flex-col bg-black/80 p-3 gap-2" >
           <h3 className="text-white font-bold">Vista Previa</h3>
           {multimediaUrl ? (
             <>
               {
                 type == 'imagen' 
                   ? <div className="self-center">
-                      <Image src={multimediaUrl} width="200px" height="300px" />
+                      <Image src={multimediaUrl} width="400px" height="300px" />
                     </div>
-                  : <div className="self-center m-auto w-full h-[220px] flex justify-center">
+                  : <div className="self-center m-auto w-full h-[250px] flex justify-center">
                       <video className='h-[250px]' src={multimediaUrl} controls></video>
                     </div>
               }
             </>
           ) : (
             <>
-              <div className="w-full h-full flex">
+              <div className="md:w-[400px] md:h-full h-[300px] flex">
                 <span className="m-auto text-white text-center">{
                   type == 'imagen' ? 'No se ha agregado ninguna imagen.' 
                   : 'No se ha agregado ningun video.'
