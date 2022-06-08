@@ -17,10 +17,22 @@ export default function Home() {
       email: formData.get('email'),
       password: formData.get('password'),
     };
+
+    if (!/[\w\.]{5,30}\+?\w{0,10}@[\w\.\-]{3,}\.\w{2,3}/i.test(data.email)) {
+      auth.setError('Usuario de email invalido');
+      return;
+    } else if (!/.{8,1024}/.test(data.password)) {
+      auth.setError('La contraseña es demasiado corta');
+      return;
+    }
+
     auth
       .signIn(data)
       .then((res) => {
-        if (res) router.push('/dashboard');
+        if (res) {
+          auth.setError(null);
+          router.push('/dashboard');
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -36,8 +48,8 @@ export default function Home() {
           onSubmit={handleSubmit}
         >
           <h3 className="font-bold text-xl">Ingresa a tu cuenta</h3>
-          <input className="border border-white bg-black/80 p-1" placeholder="Correo Electrónico" type="email" id="email" name="email" />
-          <input className="border border-white bg-black/80 p-1" placeholder="Contraseña" type="password" id="password" name="password" />
+          <input className="border border-white bg-black/80 p-1" placeholder="Correo Electrónico" type="email" id="email" name="email" required />
+          <input className="border border-white bg-black/80 p-1" placeholder="Contraseña" type="password" id="password" name="password" required />
           {auth.error ? <span className="h-4 text-red-600">{auth.error}</span> : <span className="h-4"></span>}
           <button type="submit" className="self-center py-1 px-3 border border-white bg-black/50 hover:text-white/80 hover:border-white/80">
             Ingresar
