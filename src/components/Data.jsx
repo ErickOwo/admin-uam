@@ -10,6 +10,7 @@ const Data = ({ place, apiURL, addURL, editURL }) => {
 
   const handleDelete = (id) => {
     if (confirm('¿Está seguro de que desea eliminar el objeto?')) deleteData(apiURL, id).then(res=> router.reload());
+    else return
   };
 
   return (
