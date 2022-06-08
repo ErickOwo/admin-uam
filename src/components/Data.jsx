@@ -21,7 +21,7 @@ const Data = ({ place, apiURL, addURL, editURL }) => {
             <button className="bg-pink-700 py-2 px-6 ml-auto rounded-lg">Agregar</button>
           </Link>
         </div>
-        <div className="my-4 flex flex-col text-white">
+        <div className="my-4 flex flex-col text-white gap-4">
           {data?.data.map((item, index) => (
             <div className="flex p-6 bg-black/70 w-full rounded-lg md:flex-row flex-col md:gap-0 gap-3" key={index}>
               <div className="flex flex-col grow shrink gap-4">
