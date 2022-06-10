@@ -34,12 +34,28 @@ const Data = ({ place, apiURL, addURL, editURL }) => {
                   <span className="font-bold">{item.title ? 'Descripción: ' : 'Cargo: '}</span>
                   {item.description || item.position}
                 </p>
+                { 
+                  item?.place ? <>
+                    <p>
+                      <span className="font-bold">lugar: </span>
+                        { item.place }
+                    </p>
+                    <span className="font-bold">Información: </span>
+                    <div className='max-h-[210px] max-w-[550px] overflow-auto mb-6 flex flex-col gap-4'>
+                      {
+                        item.parrafs.map(parraf =>(
+                          <p>{ parraf }</p>
+                        ))
+                      }
+                    </div>
+                  </> : null
+                }
                 <Link href={`${editURL}/${item._id}`}>
-                  <button className="mt-auto bg-sky-500 p-2 md:w-9/12 w-full self-center text-white font-bold">
+                  <button className="mt-auto bg-sky-500 p-2 md:w-9/12 w-full self-center md:mr-12 text-white font-bold">
                     Modificar
                   </button>
                 </Link>
-                <button className="md:mt-3 bg-red-600 p-2 md:w-9/12 w-full self-center text-white font-bold" onClick={() => handleDelete(item._id)}>
+                <button className=" bg-red-600 p-2 md:w-9/12 w-full self-center md:mr-12 text-white font-bold" onClick={() => handleDelete(item._id)}>
                   Eliminar
                 </button>
               </div>

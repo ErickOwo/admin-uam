@@ -15,8 +15,14 @@ const endPoints = {
   equipoData: {
     api: `${API}/equipotecnico`,
   },
+  basesData: {
+    api: `${API}/bases`,
+  },
   multimediaData: {
     api: `${API}/multimedia`,
+  },
+  cooperationData: {
+    api: `${API}/cooperation`,
   },
 };
 

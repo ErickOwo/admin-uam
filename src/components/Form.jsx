@@ -4,7 +4,16 @@ import { useRouter } from 'next/router';
 import { postData, putData, getData } from '@services/api/requests';
 import useSWR from 'swr';
 
-const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='imagen', mode='Agregar' }) => {
+const Form = ({ 
+    nameLabel, 
+    descriptionLabel, 
+    urlAPIMultimedia, 
+    redirect, 
+    type='imagen', 
+    mode='Agregar',
+    placeLabel,
+    parrafsLabel,
+    linkLabel }) => {
   const router = useRouter();
   const formRef = useRef(null);
   const [ multimediaUrl, setMultimediaUrl ] = useState(null);
@@ -15,7 +24,7 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
     type: 'informative' 
   })
   const [ dragData, setDragData ] = useState(null);
-  const [ defaultData, setDefaultData ] = useState({title: null, description: null, mediaURL: null, public_id: null});
+  const [ defaultData, setDefaultData ] = useState({title: null, description: null, place: null, parrafs: [], linkcooperation: null, mediaURL: null, public_id: null});
   const [ typeBoder, setTypeBorder ] = useState('normal');
 
   const { id } = router.query;
@@ -27,6 +36,9 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
       setDefaultData({
         title: data?.name || data?.title, 
         description: data?.position || data?.description, 
+        place: data?.place, 
+        parrafs: data?.parrafs,
+        linkcooperation: data?.linkcooperation,
         mediaURL: data?.imgURL || data?.videoURL, 
         public_id: data?.public_id,
         _id: data?._id
@@ -43,12 +55,12 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
   };
   const handleDrop = e => {
     e.preventDefault()
-    if(!/video\/.*/i.test(e.dataTransfer.files[0].type) && type == "video"){
+    if(!/video\/.*/i.test(e?.dataTransfer?.files[0]?.type) && type == "video" && !e?.dataTransfer?.files[0]?.type){
       setMessage({text: "No se admiten archivos que no sean de tipo video", type: 'error'});
       setDragModal(false);
       return
     }
-    if(!/image\/.*/i.test(e.dataTransfer.files[0].type) && type == "imagen"){
+    if(!/image\/.*/i.test(e?.dataTransfer?.files[0]?.type) && type == "imagen" && !e?.dataTransfer?.files[0]?.type){
       setMessage({text: "No se admiten archivos que no sean de tipo imagen", type: 'error'});
       setDragModal(false);
       return
@@ -109,6 +121,7 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
         router.push(redirect);
       })
       .catch((e) => {
+        setMessage({text: 'Fallo en la API', type: "error"})
         console.log('hay un error');
         console.log(e);
       });
@@ -177,20 +190,69 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
            </div> :null
         }
         <form className="flex flex-col bg-black/80 lg:w-[500px] p-8 items-start gap-2 text-white" ref={formRef} onSubmit={handleSubmit}>
-          <label className="font-bold">{ nameLabel }</label>
+          <label 
+            className="font-bold"
+            htmlFor='title' >
+              { nameLabel }
+            </label>
           <input 
             className="bg-black/40 max-w-[400px] w-full p-1" 
             name="title" 
             id="title" 
             defaultValue= { data ? defaultData.title : null}
             required />
-          <label className="font-bold">{ descriptionLabel }</label>
+          <label 
+            className="font-bold"
+            htmlFor='description' >
+              { descriptionLabel }
+            </label>
           <input 
             className="bg-black/40 max-w-[400px] w-full p-1" 
             name="description" 
             id="description" 
             defaultValue={ data ? defaultData.description : null}
             required />
+          {
+            placeLabel ? <>
+            <label 
+              className="font-bold"
+              htmlFor='place' >
+                { placeLabel }
+            </label>
+            <input 
+              className="bg-black/40 max-w-[400px] w-full p-1" 
+              name="place" 
+              id="place" 
+              defaultValue={ data ? defaultData.place : null}
+              required /> 
+            <label 
+              className="font-bold"
+              htmlFor='parrafs' >
+                { parrafsLabel }
+            </label>
+            <textarea 
+              className="bg-black/40 max-w-[400px] w-full p-1 min-h-[150px]" 
+              name="parrafs" 
+              id="parrafs" 
+              defaultValue={ data ? `${defaultData?.parrafs?.map((parraf, index) =>  index != 0 ? `\n\n${parraf}` : parraf)}`.replace(',\n','\n') : null } /> 
+            </> 
+            : null
+          }
+          {
+            linkLabel ? <>
+              <label 
+                className="font-bold"
+                htmlFor='linkcooperation' >
+                  { linkLabel }
+              </label>
+              <input 
+                className="bg-black/40 max-w-[400px] w-full p-1" 
+                name="linkcooperation" 
+                id="linkcooperation" 
+                defaultValue={ data ? defaultData.linkcooperation : null}
+                required />
+            </> : null
+          }
           <label 
             className="py-3 my-3 md:w-2/5 w-max text-center bg-yellow-200 text-black rounded-lg font-bold" 
             htmlFor="media">
@@ -257,7 +319,7 @@ const Form = ({ nameLabel, descriptionLabel, urlAPIMultimedia, redirect, type='i
             <>
               {
                 type == 'imagen' 
-                  ? <div className="self-center">
+                  ? <div className="self-center m-auto">
                       <Image src={multimediaUrl} width="400px" height="300px" />
                     </div>
                   : <div className="self-center m-auto w-full h-[250px] flex justify-center">

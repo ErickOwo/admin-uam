@@ -12,12 +12,28 @@ const Dashboard = () => {
       name: 'Galleria de Inicio',
     },
     {
+      link: '/dashboard/modgallery',
+      name: 'Galleria de Inicio',
+    },
+    {
+      link: '/',
+      name: 'Programas',
+    },
+    {
       link: '/dashboard/modequipotecnico',
       name: 'Equipo Técnico',
     },
     {
+      link: '/dashboard/modbases',
+      name: 'Bases',
+    },
+    {
       link: '/dashboard/modmultimedia',
       name: 'Multimedia',
+    },
+    {
+      link: '/dashboard/modcooperation',
+      name: 'Cooperación',
     },
   ];
 
