@@ -73,7 +73,7 @@ const useProviderAuth = () => {
       const { data: userProfile } = await axios(endPoints.auth.profile);
       setUser(userProfile);
     } catch (e) {
-      window.location = '/';
+      logOut();
     }
   };
   return {
