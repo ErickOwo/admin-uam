@@ -13,7 +13,8 @@ const Form = ({
     mode='Agregar',
     placeLabel,
     parrafsLabel,
-    linkLabel }) => {
+    linkLabel,
+    infoDiv }) => {
   const router = useRouter();
   const formRef = useRef(null);
   const [ multimediaUrl, setMultimediaUrl ] = useState(null);
@@ -24,8 +25,10 @@ const Form = ({
     type: 'informative' 
   })
   const [ dragData, setDragData ] = useState(null);
-  const [ defaultData, setDefaultData ] = useState({title: null, description: null, place: null, parrafs: [], linkcooperation: null, mediaURL: null, public_id: null});
+  const [ defaultData, setDefaultData ] = useState({title: undefined, description: undefined, place: undefined, parrafs: [], linkcooperation: undefined, mediaURL: undefined, public_id: undefined});
   const [ typeBoder, setTypeBorder ] = useState('normal');
+  const [ sections, setSections ] = useState([{subtitle: undefined, text: undefined, type: undefined}])
+  const [ hiddenNum, setHiddenNum ] = useState(1);
 
   const { id } = router.query;
  
@@ -41,11 +44,24 @@ const Form = ({
         linkcooperation: data?.linkcooperation,
         mediaURL: data?.imgURL || data?.videoURL, 
         public_id: data?.public_id,
-        _id: data?._id
+        _id: data?._id,
       });
       setMultimediaUrl(data?.imgURL || data?.videoURL);
+      if(data?.textContent){
+        setSections(data?.textContent.map(objectToParse=>{
+          const object = JSON.parse(objectToParse);
+          const info = {
+            subtitle: object.subtitle,
+            text: `${JSON.parse(object.text).parrafs.map((parraf, index) => index == 0 ? `${parraf}` :`\n\n${parraf}`)}`.replace(',\n','\n'),
+            type: object.type
+          }
+          return info;
+        }));
+        setHiddenNum(data?.textContent.length)
+      }
     }
   },[data]);
+
 
   const handleDragEnter = e => {
     setDragModal(true);
@@ -95,6 +111,23 @@ const Form = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     let formData = new FormData(formRef.current);
+
+    const info = [];
+
+    if(formData.get('num')){
+
+      for(let i=0 ; i < formData.get('num'); i++){
+        info.push(JSON.stringify({
+          "subtitle": formData.get(`subtitle${i}`),
+          "text": formData.get(`text${i}`),
+          "type": formData.get(`type${i}`)
+        }))
+        formData.delete(`subtitle${i}`);
+        formData.delete(`text${i}`);
+        formData.delete(`type${i}`)
+      } 
+      formData.append("info",JSON.stringify({"data": info}))
+    }
     
     if(mode == 'Agregar' && formData.get('media').size == 0 && !dragData){
       setMessage({
@@ -164,6 +197,27 @@ const Form = ({
     }
   };
 
+  const addCamp = () =>{
+    const formData = new FormData(formRef.current);
+    for(let i=0 ; i <= formData.get('num'); i++){
+      if(formData.get('num') != i){
+        sections[i].subtitle == formData.get(`subtitle${i}`)
+        sections[i].text == formData.get(`text${i}`)
+        sections[i].type == formData.get(`type${i}`)
+      } else{
+        sections.push({subtitle: undefined, text: undefined, type: undefined})
+        setSections(sections);
+        setHiddenNum(++hiddenNum)
+      }    
+    }
+  }
+
+  const deleteCamp = () =>{
+    sections.pop();
+    setSections(sections);
+    setHiddenNum(--hiddenNum)
+  }
+
   return (
     <div className="w-full flex justify-center md:p-4 py-4 px-2 items-start">
       <div 
@@ -187,7 +241,7 @@ const Form = ({
                 : {color: "#0f0"} } >
                 { mensajeModal.text }
               </span>
-           </div> :null
+           </div> : null
         }
         <form className="flex flex-col bg-black/80 lg:w-[500px] p-8 items-start gap-2 text-white" ref={formRef} onSubmit={handleSubmit}>
           <label 
@@ -199,7 +253,7 @@ const Form = ({
             className="bg-black/40 max-w-[400px] w-full p-1" 
             name="title" 
             id="title" 
-            defaultValue= { data ? defaultData.title : null}
+            defaultValue= { data ? defaultData.title : undefined}
             required />
           <label 
             className="font-bold"
@@ -210,7 +264,7 @@ const Form = ({
             className="bg-black/40 max-w-[400px] w-full p-1" 
             name="description" 
             id="description" 
-            defaultValue={ data ? defaultData.description : null}
+            defaultValue={ data ? defaultData.description : undefined}
             required />
           {
             placeLabel ? <>
@@ -223,7 +277,7 @@ const Form = ({
               className="bg-black/40 max-w-[400px] w-full p-1" 
               name="place" 
               id="place" 
-              defaultValue={ data ? defaultData.place : null}
+              defaultValue={ data ? defaultData.place : undefined}
               required /> 
             <label 
               className="font-bold"
@@ -234,7 +288,7 @@ const Form = ({
               className="bg-black/40 max-w-[400px] w-full p-1 min-h-[150px]" 
               name="parrafs" 
               id="parrafs" 
-              defaultValue={ data ? `${defaultData?.parrafs?.map((parraf, index) =>  index != 0 ? `\n\n${parraf}` : parraf)}`.replace(',\n','\n') : null } /> 
+              defaultValue={ data ? `${defaultData?.parrafs?.map((parraf, index) =>  index != 0 ? `\n\n${parraf}` : parraf)}`.replace(',\n','\n') : undefined } /> 
             </> 
             : null
           }
@@ -249,8 +303,72 @@ const Form = ({
                 className="bg-black/40 max-w-[400px] w-full p-1" 
                 name="linkcooperation" 
                 id="linkcooperation" 
-                defaultValue={ data ? defaultData.linkcooperation : null}
+                defaultValue={ data ? defaultData.linkcooperation : undefined}
                 required />
+            </> : null
+          }
+          {
+            infoDiv ? <>
+              <span className='font-bold mb-2 text-lg'>Ingresar información: </span>
+              <div className='w-full flex justify-end'>
+                <button 
+                  type='button' 
+                  className='mr-10 bg-black/70 p-2'
+                  onClick={()=> deleteCamp()} >
+                    Eliminar Campo 
+                </button>
+                <button 
+                  type='button' 
+                  className='mr-10 bg-black/70 p-2'
+                  onClick={()=> addCamp()} >
+                    Agregar Campo 
+                </button>
+              </div>
+              <input type='hidden' id='num' name='num' value={hiddenNum} />
+              <div className='overflow-auto w-full h-[430px] flex flex-col gap-2 mb-4'>
+                {
+                  sections.map((section, index) =>(
+                    <div key={ index } className='flex flex-col gap-2'> 
+                      <label 
+                        className="font-bold"
+                        htmlFor={`subtitle${index}`} >
+                          Subtítulo:
+                      </label>
+                      <input 
+                        className="bg-black/40 max-w-[400px] w-full p-1" 
+                        name={`subtitle${index}`} 
+                        id={`subtitle${index}`} 
+                        defaultValue={ section.subtitle }
+                        required />
+                      <label 
+                        className="font-bold"
+                        htmlFor={`text${index}`} >
+                          Texto:
+                      </label>
+                      <textarea 
+                        className="bg-black/40 max-w-[400px] w-full min-h-[200px] p-1" 
+                        name={`text${index}`} 
+                        id={`text${index}`}
+                        defaultValue={ section.text }
+                        required />
+                      <label 
+                        className="font-bold"
+                        htmlFor={`type${index}`} >
+                          Tipo:
+                      </label>
+                      <select
+                        className="bg-black/40 max-w-[400px] w-full p-1 mb-8" 
+                        name={`type${index}`} 
+                        id={`type${index}`}
+                        defaultValue={ section.type } 
+                        required >
+                          <option value="parraf">Parrafo</option>
+                          <option value="list">Lista</option>
+                      </select>
+                    </div>
+                  ))
+                }
+              </div>
             </> : null
           }
           <label 
@@ -271,7 +389,7 @@ const Form = ({
               name="id" 
               id="id" 
               hidden
-              defaultValue={ data ? defaultData._id : null} />
+              defaultValue={ data ? defaultData._id : undefined} />
               : null
           }
           {message?.text  

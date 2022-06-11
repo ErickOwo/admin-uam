@@ -1,11 +1,16 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useAuth } from '@hooks/use-auth';
 import { useRouter } from 'next/router';
+import jsCookie from 'js-cookie';
 
 export default function Home() {
   const formRef = useRef(null);
   const auth = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (jsCookie.get('token-uam')) router.push('/dashboard');
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

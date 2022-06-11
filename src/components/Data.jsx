@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { getData, deleteData } from '@services/api/requests';
 import { useRouter } from 'next/router';
 
-const Data = ({ place, apiURL, addURL, editURL }) => {
+const Data = ({ place, apiURL, addURL, editURL, firstTitle, secondTitle }) => {
   const { data } = useSWR(apiURL, getData);
   const router = useRouter();
 
@@ -23,21 +23,36 @@ const Data = ({ place, apiURL, addURL, editURL }) => {
           </Link>
         </div>
         <div className="my-4 flex flex-col text-white gap-4">
-          {data?.data.map((item, index) => (
+          {data?.data?.map((item, index) => (
             <div className="flex p-6 bg-black/70 w-full rounded-lg md:flex-row flex-col md:gap-0 gap-3" key={index}>
               <div className="flex flex-col grow shrink gap-4">
                 <p>
-                  <span className="font-bold">{item.title ? 'Título: ' : 'Nombre: '}</span>
+                  <span className="font-bold">{ firstTitle || 'Título: ' }</span>
                   {item.title || item.name}
                 </p>
                 <p>
-                  <span className="font-bold">{item.title ? 'Descripción: ' : 'Cargo: '}</span>
+                  <span className="font-bold">{ secondTitle || 'Descripción: ' }</span>
                   {item.description || item.position}
                 </p>
+                {
+                  item.linkcooperation ? <>
+                    <p>
+                      <span>
+                        Enlace: 
+                      </span>
+                      <a 
+                        target='_blank' 
+                        href={ item.linkcooperation } 
+                        className='text-pink-700 font-bold ml-4 -mb-2'>
+                        { item.linkcooperation }
+                      </a>
+                    </p>
+                  </> : null
+                }
                 { 
                   item?.place ? <>
                     <p>
-                      <span className="font-bold">lugar: </span>
+                      <span className="font-bold">Lugar: </span>
                         { item.place }
                     </p>
                     <span className="font-bold">Información: </span>

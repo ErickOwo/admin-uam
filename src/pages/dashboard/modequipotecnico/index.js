@@ -2,7 +2,16 @@ import Data from '@components/Data';
 import endPoints from '@services/api';
 
 const ModEquipoTecnico = () => {
-  return <Data place="Modificar Equipo Técnico" apiURL={endPoints.equipoData.api} addURL="/dashboard/modequipotecnico/add" editURL="/dashboard/modequipotecnico/edit" />;
+  return (
+    <Data
+      place="Modificar Equipo Técnico"
+      apiURL={endPoints.equipoData.api}
+      addURL="/dashboard/modequipotecnico/add"
+      editURL="/dashboard/modequipotecnico/edit"
+      firstTitle="Nombre: "
+      secondTitle="Cargo: "
+    />
+  );
 };
 
 export default ModEquipoTecnico;
