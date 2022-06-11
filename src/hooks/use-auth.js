@@ -1,12 +1,31 @@
-import React, { useContext, useState, createContext } from 'react';
+import React, { useContext, useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 import cookie from 'js-cookie';
 import endPoints from '@services/api';
+import { useRouter } from 'next/router';
 
 const AuthContext = createContext();
 
 export const ProviderAuth = ({ children }) => {
   const auth = useProviderAuth();
+  const router = useRouter();
+  const [initializated, setInitial] = useState(false);
+
+  useEffect(() => {
+    const authentication = async () => {
+      try {
+        const res = await auth.auth();
+        if (res == 'ok') {
+          setInitial(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    authentication();
+  }, [router.pathname]);
+
+  if (!initializated && router.pathname != '/') return;
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
 
@@ -17,6 +36,7 @@ export const useAuth = () => {
 const useProviderAuth = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   if (cookie.get('token-uam')) {
     axios.defaults.headers.Authorization = `${cookie.get('token-uam')}`;
@@ -66,14 +86,16 @@ const useProviderAuth = () => {
     cookie.remove('token-uam');
     setUser(null);
     delete axios.defaults.headers.Authorization;
-    window.location = '/';
+    if (router.pathname != '/') window.location = '/';
   };
   const auth = async () => {
     try {
       const { data: userProfile } = await axios(endPoints.auth.profile);
       setUser(userProfile);
+      return 'ok';
     } catch (e) {
       logOut();
+      return error;
     }
   };
   return {

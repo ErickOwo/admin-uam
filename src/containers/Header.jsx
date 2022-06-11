@@ -1,18 +1,17 @@
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import jsCookie from "js-cookie";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from "@hooks/use-auth";
 import { FaAngleDown } from "react-icons/fa";
 
 const Header = () => {
-  const { auth, user, logOut } = useAuth();
+  const { user, logOut, auth, } = useAuth();
   const [ dropMenu, setDropMenu ] = useState(false);
 
   const router = useRouter();
   if(router.pathname == "/") return 
-  
-  auth();
+
+  // auth();
 
   return (
     <>

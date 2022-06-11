@@ -12,6 +12,9 @@ const endPoints = {
   galleryData: {
     api: `${API}/galleryprincipal`,
   },
+  programasData: {
+    api: `${API}/programas`,
+  },
   equipoData: {
     api: `${API}/equipotecnico`,
   },

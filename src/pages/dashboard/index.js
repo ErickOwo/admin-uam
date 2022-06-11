@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 
 const Dashboard = () => {
@@ -16,7 +15,7 @@ const Dashboard = () => {
       name: 'Galleria de Inicio',
     },
     {
-      link: '/',
+      link: '/dashboard/modprogramas',
       name: 'Programas',
     },
     {
