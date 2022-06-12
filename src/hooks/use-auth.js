@@ -24,8 +24,12 @@ export const ProviderAuth = ({ children }) => {
     };
     authentication();
   }, [router.pathname]);
-
-  if (!initializated && router.pathname != '/') return;
+  if (!initializated && router.pathname != '/')
+    return (
+      <div className="text-yellow-600 bg-black w-full h-screen fixed top-0 right-0 flex">
+        <span className="m-auto text-2xl">Cargando...</span>
+      </div>
+    );
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
 
