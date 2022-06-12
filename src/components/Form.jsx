@@ -40,7 +40,7 @@ const Form = ({
         title: data?.name || data?.title, 
         description: data?.position || data?.description, 
         place: data?.place, 
-        parrafs: data?.parrafs,
+        parrafs: textConversor(data?.parrafs),
         linkcooperation: data?.linkcooperation,
         mediaURL: data?.imgURL || data?.videoURL, 
         public_id: data?.public_id,
@@ -219,6 +219,7 @@ const Form = ({
   }
 
   const textConversor = array =>{
+    if(!array) return undefined;
     let text = ``;
     for(let i = 0; i < array.length; i++){
       if(i == 0) text += array[i]
@@ -297,7 +298,7 @@ const Form = ({
               className="bg-black/40 max-w-[400px] w-full p-1 min-h-[150px]" 
               name="parrafs" 
               id="parrafs" 
-              defaultValue={ textConversor(defaultData?.parrafs)} /> 
+              defaultValue={ defaultData?.parrafs} /> 
             </> 
             : null
           }

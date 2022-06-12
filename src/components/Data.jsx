@@ -25,7 +25,7 @@ const Data = ({ place, apiURL, addURL, editURL, firstTitle, secondTitle }) => {
         <div className="my-4 flex flex-col text-white gap-4">
           {data?.data?.map((item, index) => (
             <div className="flex p-6 bg-black/70 w-full rounded-lg md:flex-row flex-col md:gap-0 gap-3" key={index}>
-              <div className="flex flex-col grow shrink gap-4 h-[310px]">
+              <div className="flex flex-col grow shrink gap-4 min-h-[310px] ">
                 <p>
                   <span className="font-bold">{ firstTitle || 'Título: ' }</span>
                   {item.title || item.name}
@@ -56,7 +56,7 @@ const Data = ({ place, apiURL, addURL, editURL, firstTitle, secondTitle }) => {
                         { item.place }
                     </p>
                     <span className="font-bold">Información: </span>
-                    <div className='max-h-[210px] max-w-[550px] overflow-auto mb-6 flex flex-col gap-4'>
+                    <div className='max-h-[210px] max-w-[550px] min-h-[150px] overflow-auto mb-6 flex flex-col gap-4'>
                       {
                         item.parrafs.map(parraf =>(
                           <p>{ parraf }</p>
