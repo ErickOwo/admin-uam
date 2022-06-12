@@ -52,7 +52,7 @@ const Form = ({
           const object = JSON.parse(objectToParse);
           const info = {
             subtitle: object.subtitle,
-            text: `${JSON.parse(object.text).parrafs.map((parraf, index) => index == 0 ? `${parraf}` :`\n\n${parraf}`)}`.replace(',\n','\n'),
+            text: textConversor(JSON.parse(object.text).parrafs),
             type: object.type
           }
           return info;
@@ -218,6 +218,15 @@ const Form = ({
     setHiddenNum(--hiddenNum)
   }
 
+  const textConversor = array =>{
+    let text = ``;
+    for(let i = 0; i < array.length; i++){
+      if(i == 0) text += array[i]
+      else text += `\n\n${array[i]}`
+    }
+    return text;
+  }
+
   return (
     <div className="w-full flex justify-center md:p-4 py-4 px-2 items-start">
       <div 
@@ -288,7 +297,7 @@ const Form = ({
               className="bg-black/40 max-w-[400px] w-full p-1 min-h-[150px]" 
               name="parrafs" 
               id="parrafs" 
-              defaultValue={ data ? `${defaultData?.parrafs?.map((parraf, index) =>  index != 0 ? `\n\n${parraf}` : parraf)}`.replace(',\n','\n') : undefined } /> 
+              defaultValue={ textConversor(defaultData?.parrafs)} /> 
             </> 
             : null
           }
