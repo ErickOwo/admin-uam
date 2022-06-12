@@ -25,7 +25,7 @@ const Data = ({ place, apiURL, addURL, editURL, firstTitle, secondTitle }) => {
         <div className="my-4 flex flex-col text-white gap-4">
           {data?.data?.map((item, index) => (
             <div className="flex p-6 bg-black/70 w-full rounded-lg md:flex-row flex-col md:gap-0 gap-3" key={index}>
-              <div className="flex flex-col grow shrink gap-4">
+              <div className="flex flex-col grow shrink gap-4 h-[310px]">
                 <p>
                   <span className="font-bold">{ firstTitle || 'Título: ' }</span>
                   {item.title || item.name}
@@ -36,7 +36,7 @@ const Data = ({ place, apiURL, addURL, editURL, firstTitle, secondTitle }) => {
                 </p>
                 {
                   item.linkcooperation ? <>
-                    <p>
+                    <p className='max-w-min h-full max-h-none overflow-auto'>
                       <span>
                         Enlace: 
                       </span>
