@@ -34,6 +34,10 @@ const Dashboard = () => {
       link: '/dashboard/modcooperation',
       name: 'Cooperación',
     },
+    {
+      link: '/dashboard/propuestas',
+      name: 'Propuestas',
+    },
   ];
 
   return (
