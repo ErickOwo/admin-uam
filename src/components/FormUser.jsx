@@ -19,7 +19,7 @@ const FormUser = () => {
       setError('El nombre no puede contener menos de 3 o más de 260 caracteres');
       return
     }
-    else if(!/[\w\.]{5,30}\+?\w{0,10}@[\w\.\-]{3,}\.\w{2,3}/i.test(data.email)){
+    else if(!/[\w\.]{3,30}\+?\w{0,10}@[\w\.\-]{3,}\.\w{2,3}/i.test(data.email)){
       setError('Usuario de email invalido');
       return
     }
