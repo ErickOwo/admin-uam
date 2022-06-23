@@ -43,7 +43,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="container max-w-none w-full py-8 md:px-12 px-6">
-        <span className="text-2xl mb-1 mt-4 mr-2 font-extrabold">Página UAM:</span>
+        <span className="text-2xl mb-1 mt-4 mr-2 font-bold text-white">Página UAM:</span>
         <a href="https://uam-page.vercel.app/" target="_blank" className="font-bold tracking-wide text-pink-700 mb-2 text-lg" rel="noreferrer">
           Enlace
         </a>

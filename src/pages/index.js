@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useAuth } from '@hooks/use-auth';
 import { useRouter } from 'next/router';
 import jsCookie from 'js-cookie';
@@ -7,6 +7,7 @@ export default function Home() {
   const formRef = useRef(null);
   const auth = useAuth();
   const router = useRouter();
+  const [menssage, setMessage] = useState(null);
 
   useEffect(() => {
     if (jsCookie.get('token-uam')) router.push('/dashboard');
@@ -26,12 +27,15 @@ export default function Home() {
     } else if (!/.{8,1024}/.test(data.password)) {
       auth.setError('La contraseña es demasiado corta');
       return;
+    } else {
+      auth.setError(null);
     }
 
     auth
       .signIn(data)
       .then((res) => {
         if (res) {
+          setMessage(null);
           auth.setError(null);
           router.push('/dashboard');
         }
@@ -59,10 +63,11 @@ export default function Home() {
               Contraseña: <span className="text-white">12345678</span>
             </span>
           </div>
-          <input className="border border-white bg-black/80 p-1" placeholder="Correo Electrónico" type="email" id="email" name="email" required />
-          <input className="border border-white bg-black/80 p-1" placeholder="Contraseña" type="password" id="password" name="password" required />
+          <input className="border border-white bg-black/80 p-1" placeholder="Correo Electrónico" type="email" id="email" name="email" />
+          <input className="border border-white bg-black/80 p-1" placeholder="Contraseña" type="password" id="password" name="password" />
           {auth.error ? <span className="h-4 text-red-600">{auth.error}</span> : <span className="h-4"></span>}
-          <button type="submit" className="self-center py-1 px-3 border border-white bg-black/50 hover:text-white/80 hover:border-white/80">
+          {!auth.error && menssage ? <span className="h-4 text-blue-700">Ingresando...</span> : <span className="h-4"></span>}
+          <button type="submit" onClick={() => setMessage(true)} className="self-center py-1 px-3 border border-white bg-black/50 hover:text-white/80 hover:border-white/80">
             Ingresar
           </button>
         </form>
