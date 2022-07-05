@@ -81,8 +81,7 @@ const Form = ({
       setDragModal(false);
       return
     }
-    dragData = e.dataTransfer.files[0];
-    setDragData(dragData)
+    setDragData(e.dataTransfer.files[0])
     const reader = new FileReader();
     reader.readAsArrayBuffer(e.dataTransfer.files[0])
     const sizeData = e.dataTransfer.files[0].size
